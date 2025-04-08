@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول</title>
+  <style>
+    body {
+      font-family: 'Cairo', Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      direction: rtl;
+    }
+    
+    .container {
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      padding: 30px;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .logo {
+      max-width: 120px;
+      margin-bottom: 15px;
+    }
+    
+    .header h1 {
+      color: #2c3e50;
+      margin: 0;
+      font-size: 24px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    
+    /* نمط حقل كلمة المرور مع أيقونة العين */
+    .password-container {
+      position: relative;
+    }
+    
+    .password-toggle {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #7f8c8d;
+      font-size: 18px;
+    }
+    
+    /* أيقونة العين */
+    .eye-icon {
+      width: 22px;
+      height: 22px;
+      display: inline-block;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+    
+    .eye-open {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%237f8c8d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'%3E%3C/path%3E%3Ccircle cx='12' cy='12' r='3'%3E%3C/circle%3E%3C/svg%3E");
+    }
+    
+    .eye-closed {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%237f8c8d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24'%3E%3C/path%3E%3Cline x1='1' y1='1' x2='23' y2='23'%3E%3C/line%3E%3C/svg%3E");
+    }
+    
+    .form-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .btn {
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary {
+      background-color: #3498db;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: #2980b9;
+    }
+    
+    .btn-secondary {
+      background-color: #f8f9fa;
+      color: #2c3e50;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #e9ecef;
+    }
+    
+    .login-form, .recover-form {
+      display: block;
+    }
+    
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      color: #3498db;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    
+    .message {
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+    
+    .message.error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    
+    .message.success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    
+    /* تحميل خط القاهرة من Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+    
+    /* رمز التحميل */
+    .loader {
+      display: none;
+      text-align: center;
+      padding: 15px;
+    }
+    
+    .loader i {
+      border: 4px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 4px solid #3498db;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- واجهة تسجيل الدخول -->
+    <div class="login-form" id="loginForm">
+      <div class="header">
+        <img src="https://www2.0zz0.com/2025/04/08/07/441246159.png" alt="شعار المدرسة" class="logo">
+        <h1>تسجيل الدخول</h1>
+      </div>
+      
+      <div id="loginMessage" class="message" style="display: none;"></div>
+      
+      <div class="form-group">
+        <label for="username">اسم المستخدم</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">كلمة المرور</label>
+        <div class="password-container">
+          <input type="password" id="password" name="password" required>
+          <span class="password-toggle" onclick="togglePasswordVisibility('password')">
+            <span class="eye-icon eye-closed" id="password-toggle-icon"></span>
+          </span>
+        </div>
+      </div>
+      
+      <div class="form-actions">
+        <button type="button" class="btn btn-primary" onclick="login()">تسجيل الدخول</button>
+        <button type="button" class="btn btn-secondary" onclick="showRecoverForm()">نسيت كلمة المرور</button>
+      </div>
+      
+      <div class="loader" id="loginLoader">
+        <i></i>
+        <p>جاري التحقق من البيانات...</p>
+      </div>
+    </div>
+    
+    <!-- واجهة استرجاع كلمة المرور -->
+    <div class="recover-form" id="recoverForm" style="display: none;">
+      <div class="header">
+        <img src="https://www2.0zz0.com/2025/04/08/07/441246159.png" alt="شعار المدرسة" class="logo">
+        <h1>استرجاع كلمة المرور</h1>
+      </div>
+      
+      <div id="recoverMessage" class="message" style="display: none;"></div>
+      
+      <div class="form-group">
+        <label for="recoverUsername">اسم المستخدم</label>
+        <input type="text" id="recoverUsername" name="recoverUsername" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="email">البريد الإلكتروني</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      
+      <div class="form-actions">
+        <button type="button" class="btn btn-primary" onclick="recoverPassword()">استرجاع كلمة المرور</button>
+        <a class="back-link" onclick="showLoginForm()">العودة إلى تسجيل الدخول</a>
+      </div>
+      
+      <div class="loader" id="recoverLoader">
+        <i></i>
+        <p>جاري معالجة طلبك...</p>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // إظهار واجهة استرجاع كلمة المرور
+    function showRecoverForm() {
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('recoverForm').style.display = 'block';
+    }
+    
+    // إظهار واجهة تسجيل الدخول
+    function showLoginForm() {
+      document.getElementById('recoverForm').style.display = 'none';
+      document.getElementById('loginForm').style.display = 'block';
+    }
+    
+    // التبديل بين إظهار وإخفاء كلمة المرور
+    function togglePasswordVisibility(fieldId) {
+      const passwordField = document.getElementById(fieldId);
+      const toggleIcon = document.getElementById(fieldId + '-toggle-icon');
+      
+      if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        toggleIcon.classList.remove('eye-closed');
+        toggleIcon.classList.add('eye-open');
+      } else {
+        passwordField.type = 'password';
+        toggleIcon.classList.remove('eye-open');
+        toggleIcon.classList.add('eye-closed');
+      }
+    }
+    
+    // دالة تسجيل الدخول
+    function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      
+      // التحقق من إدخال كافة البيانات
+      if (!username || !password) {
+        showMessage('loginMessage', 'يرجى إدخال اسم المستخدم وكلمة المرور', 'error');
+        return;
+      }
+      
+      // إظهار رمز التحميل
+      document.getElementById('loginLoader').style.display = 'block';
+      
+      // استدعاء دالة التحقق من البيانات في ملف code.gs
+      google.script.run
+        .withSuccessHandler(handleLoginSuccess)
+        .withFailureHandler(handleLoginFailure)
+        .validateLogin(username, password);
+    }
+    
+    // معالجة نجاح تسجيل الدخول
+    function handleLoginSuccess(response) {
+      document.getElementById('loginLoader').style.display = 'none';
+      
+      if (response.success) {
+        showMessage('loginMessage', 'تم تسجيل الدخول بنجاح، جاري تحويلك...', 'success');
+        setTimeout(function() {
+          window.top.location.href = response.redirectUrl;
+        }, 1500);
+      } else {
+        showMessage('loginMessage', response.message, 'error');
+      }
+    }
+    
+    // معالجة فشل تسجيل الدخول
+    function handleLoginFailure(error) {
+      document.getElementById('loginLoader').style.display = 'none';
+      showMessage('loginMessage', 'حدث خطأ أثناء تسجيل الدخول: ' + error.message, 'error');
+    }
+    
+    // دالة استرجاع كلمة المرور
+    function recoverPassword() {
+      const username = document.getElementById('recoverUsername').value;
+      const email = document.getElementById('email').value;
+      
+      // التحقق من إدخال كافة البيانات
+      if (!username || !email) {
+        showMessage('recoverMessage', 'يرجى إدخال اسم المستخدم والبريد الإلكتروني', 'error');
+        return;
+      }
+      
+      // إظهار رمز التحميل
+      document.getElementById('recoverLoader').style.display = 'block';
+      
+      // استدعاء دالة استرجاع كلمة المرور في ملف code.gs
+      google.script.run
+        .withSuccessHandler(handleRecoverSuccess)
+        .withFailureHandler(handleRecoverFailure)
+        .recoverPassword(username, email);
+    }
+    
+    // معالجة نجاح استرجاع كلمة المرور
+    function handleRecoverSuccess(response) {
+      document.getElementById('recoverLoader').style.display = 'none';
+      
+      if (response.success) {
+        showMessage('recoverMessage', response.message, 'success');
+        // مسح الحقول بعد النجاح
+        document.getElementById('recoverUsername').value = '';
+        document.getElementById('email').value = '';
+      } else {
+        showMessage('recoverMessage', response.message, 'error');
+      }
+    }
+    
+    // معالجة فشل استرجاع كلمة المرور
+    function handleRecoverFailure(error) {
+      document.getElementById('recoverLoader').style.display = 'none';
+      showMessage('recoverMessage', 'حدث خطأ أثناء استرجاع كلمة المرور: ' + error.message, 'error');
+    }
+    
+    // عرض رسالة للمستخدم
+    function showMessage(elementId, message, type) {
+      const element = document.getElementById(elementId);
+      element.textContent = message;
+      element.className = 'message ' + type;
+      element.style.display = 'block';
+      
+      // إخفاء الرسالة بعد 5 ثوان إذا كانت رسالة نجاح
+      if (type === 'success') {
+        setTimeout(function() {
+          element.style.display = 'none';
+        }, 5000);
+      }
+    }
+  </script>
+</body>
+</html>
